@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AssemblyBrowser.UI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,6 @@ namespace AssemblyBrowser.UI.Contracts
 {
     interface ICommand
     {
-        public void Execute();
-
-        public void Unexecute();
+        public void Execute(object parameter, out IEnumerable<MenuOption> submenuOptions);
     }
 }
