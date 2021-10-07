@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AssemblyBrowser.Application.Models
 {
-    class HierarchyGenerator : IHierarchyGenerator
+    public class HierarchyGenerator : IHierarchyGenerator
     {
         public Tuple<int, Type>[] GetTypeHierarchy(Type type)
         {

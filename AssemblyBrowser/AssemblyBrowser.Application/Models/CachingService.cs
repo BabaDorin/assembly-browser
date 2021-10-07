@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AssemblyBrowser.Application.Models
 {
-    class CachingService : ICachingService
+    public class CachingService : ICachingService
     {
         private Dictionary<string, object> _assemblyCache;
 

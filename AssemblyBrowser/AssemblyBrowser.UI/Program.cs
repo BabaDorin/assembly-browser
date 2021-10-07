@@ -1,7 +1,4 @@
-﻿using AssemblyBrowser.Application.Contracts;
-using System;
-using System.Reflection;
-using System.Reflection.Metadata;
+﻿using AssemblyBrowser.UI.Models;
 
 namespace AssemblyBrowser.UI
 {
@@ -9,9 +6,7 @@ namespace AssemblyBrowser.UI
     {
         static void Main(string[] args)
         {
-            IAssemblyBrowser assemblyBrowser = new Application.AssemblyBrowser();
+            new MenuHandler().Start();
         }
-
-
     }
 }
