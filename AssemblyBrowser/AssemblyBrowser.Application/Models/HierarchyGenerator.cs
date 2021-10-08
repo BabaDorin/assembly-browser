@@ -10,40 +10,49 @@ namespace AssemblyBrowser.Application.Models
 {
     public class HierarchyGenerator : IHierarchyGenerator
     {
-        public Tuple<int, Type>[] GetTypeHierarchy(Type type)
+        public HierarchyItem GetTypeHierarchy(Type type)
         {
-            return GetLowerTypes(type)
-                .Concat(GetUpperTypes(type))
-                .ToArray();
+            var hierarchy = GetUpperTypes(type);
+            return hierarchy;
+            //HierarchyItem lowerHierarchy = upperHierarchy; // <= the pointer that goes down the hierarchy from object to our type 
+            //for (int i = hierarchy.Count - 2; i >= 0; i--)
+            //{
+            //    lowerHierarchy.Children.Add(new HierarchyItem(hierarchy[i]));
+            //    lowerHierarchy = lowerHierarchy.Children[0];
+            //}
         }
 
-        private List<Tuple<int, Type>> GetUpperTypes(Type type)
+        private HierarchyItem GetUpperTypes(Type type)
         {
-            List<Tuple<int, Type>> upperTypes = new();
-
+            List<Type> hierarchy = new List<Type>();
             var auxType = type;
-            int currentLevel = 0;
 
             while (auxType != null)
             {
-                upperTypes.Add(new Tuple<int, Type>(currentLevel--, auxType));
+                hierarchy.Add(auxType);
                 auxType = auxType.BaseType;
             }
 
-            return upperTypes ?? new List<Tuple<int, Type>>();
+            HierarchyItem upperHierarchy = new()
+            {
+                Type = hierarchy[hierarchy.Count - 1]
+            };
+
+            HierarchyItem lowerHierarchy = upperHierarchy; // <= the pointer that goes down the hierarchy from object to our type 
+            for(int i = hierarchy.Count - 2; i >=0; i--)
+            {
+                lowerHierarchy.Children.Add(new HierarchyItem(hierarchy[i]));
+                lowerHierarchy = lowerHierarchy.Children[0];
+            }
+
+            // Now we have the lowerHierarchy, which is our type
+            // We send it further to the GetLowerTypes, which will append type's children and so on.
+
+            GetChildTypes(type, ref lowerHierarchy);
+            return upperHierarchy;
         }
 
-        private List<Tuple<int, Type>> GetLowerTypes(Type type)
-        {
-            List<Tuple<int, Type>> lowerTypes = new();
-            int currentLevel = 1;
-
-            GetChildTypes(type, currentLevel, ref lowerTypes);
-
-            return lowerTypes ?? new List<Tuple<int, Type>>();
-        }
-
-        private void GetChildTypes(Type currentType, int currentLevel, ref List<Tuple<int, Type>> hierarchy)
+        private void GetChildTypes(Type currentType, ref HierarchyItem hierarchy)
         {
             var childTypes = Assembly
                 .GetEntryAssembly()
@@ -56,12 +65,10 @@ namespace AssemblyBrowser.Application.Models
 
             foreach (var type in childTypes)
             {
-                hierarchy.Add(new Tuple<int, Type>(currentLevel, type));
-            }
-
-            foreach (var type in childTypes)
-            {
-                GetChildTypes(type, currentLevel + 1, ref hierarchy);
+                HierarchyItem childHierarchy = new();
+                childHierarchy.Type = type;
+                hierarchy.Children.Add(childHierarchy);
+                GetChildTypes(type, ref childHierarchy);
             }
         }
     }

@@ -20,29 +20,32 @@ namespace AssemblyBrowser.UI.Models.Commands
 
         public void Execute(object parameter, out IEnumerable<MenuOption> submenuOptions)
         {
-            if (parameter == null || !(parameter is Type))
-                throw new ArgumentException("Parameter is not of type: Type.", nameof(parameter));
-
             var hierarchy = _assemblyBrowser.GetTypeHierarchy((Type)parameter);
+            submenuOptions = null;
+            // Invalid logic
+            //if (parameter == null || !(parameter is Type))
+            //    throw new ArgumentException("Parameter is not of type: Type.", nameof(parameter));
 
-            int minLevel = hierarchy.Min(q => q.Item1);
-            int maxLevel = hierarchy.Max(q => q.Item1);
+            //var hierarchy = _assemblyBrowser.GetTypeHierarchy((Type)parameter);
 
-            for(int i = minLevel; i <= maxLevel; i++)
-            {
-                hierarchy
-                    .Where(q => q.Item1 == i)
-                    .Select(q => q.Item2)
-                    .ToList()
-                    .ForEach(q => DisplayType(q));
+            //int minLevel = hierarchy.Min(q => q.Item1);
+            //int maxLevel = hierarchy.Max(q => q.Item1);
 
-                Console.WriteLine();
-            }
+            //for(int i = minLevel; i <= maxLevel; i++)
+            //{
+            //    hierarchy
+            //        .Where(q => q.Item1 == i)
+            //        .Select(q => q.Item2)
+            //        .ToList()
+            //        .ForEach(q => DisplayType(q));
 
-            submenuOptions = new List<MenuOption>()
-            {
-                new MenuOption("0: Go Back", "Go back", typeof(GoBackCommand))
-            };
+            //    Console.WriteLine();
+            //}
+
+            //submenuOptions = new List<MenuOption>()
+            //{
+            //    new MenuOption("0: Go Back", "Go back", typeof(GoBackCommand))
+            //};
         }
 
         private void DisplayType(Type q)

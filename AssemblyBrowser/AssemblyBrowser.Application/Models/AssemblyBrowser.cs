@@ -44,9 +44,9 @@ namespace AssemblyBrowser.Application.Models
                 () => type.GetMembers()));
         }
 
-        public Tuple<int, Type>[] GetTypeHierarchy(Type type)
+        public HierarchyItem GetTypeHierarchy(Type type)
         {
-            return (Tuple<int, Type>[])_cachingService.GetOrSearch(
+            return (HierarchyItem)_cachingService.GetOrSearch(
                 type.FullName + "_hierarchy",
                 () => _hierarchyGenerator.GetTypeHierarchy(type));
         }   

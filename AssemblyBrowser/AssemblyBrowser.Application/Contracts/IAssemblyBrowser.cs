@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AssemblyBrowser.Application.Models;
+using System;
 using System.Reflection;
 
 namespace AssemblyBrowser.Application.Contracts
@@ -10,6 +11,6 @@ namespace AssemblyBrowser.Application.Contracts
         MemberInfo[] GetTypeMembersInfo(Type type);
 
         // int => level (-1 - baseclass, 0 - class itself, 1 - child class etc)
-        Tuple<int, Type>[] GetTypeHierarchy(Type type); 
+        HierarchyItem GetTypeHierarchy(Type type); 
     }
 }
