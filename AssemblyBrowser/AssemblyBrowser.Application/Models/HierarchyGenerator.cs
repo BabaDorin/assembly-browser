@@ -14,12 +14,6 @@ namespace AssemblyBrowser.Application.Models
         {
             var hierarchy = GetUpperTypes(type);
             return hierarchy;
-            //HierarchyItem lowerHierarchy = upperHierarchy; // <= the pointer that goes down the hierarchy from object to our type 
-            //for (int i = hierarchy.Count - 2; i >= 0; i--)
-            //{
-            //    lowerHierarchy.Children.Add(new HierarchyItem(hierarchy[i]));
-            //    lowerHierarchy = lowerHierarchy.Children[0];
-            //}
         }
 
         private HierarchyItem GetUpperTypes(Type type)
@@ -35,30 +29,31 @@ namespace AssemblyBrowser.Application.Models
 
             HierarchyItem upperHierarchy = new()
             {
-                Type = hierarchy[hierarchy.Count - 1]
+                Type = hierarchy[hierarchy.Count - 1],
+                RelationWithReference = Relation.Ancestor
             };
 
             HierarchyItem lowerHierarchy = upperHierarchy; // <= the pointer that goes down the hierarchy from object to our type 
             for(int i = hierarchy.Count - 2; i >=0; i--)
             {
-                lowerHierarchy.Children.Add(new HierarchyItem(hierarchy[i]));
+                lowerHierarchy.Children.Add(new HierarchyItem(hierarchy[i], Relation.Ancestor));
                 lowerHierarchy = lowerHierarchy.Children[0];
             }
 
             // Now we have the lowerHierarchy, which is our type
-            // We send it further to the GetLowerTypes, which will append type's children and so on.
+            lowerHierarchy.RelationWithReference = Relation.TheOne;
 
+            // We send it further to the GetLowerTypes, which will append type's children and so on.
             GetChildTypes(type, ref lowerHierarchy);
             return upperHierarchy;
         }
 
         private void GetChildTypes(Type currentType, ref HierarchyItem hierarchy)
         {
-            var childTypes = Assembly
-                .GetEntryAssembly()
-                .GetTypes()
+            var childTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(q => q.GetTypes()
                 .Where(t => t.BaseType == currentType)
-                .ToArray();
+                .ToArray());
 
             if (childTypes == null || childTypes.Count() == 0)
                 return;
@@ -67,6 +62,7 @@ namespace AssemblyBrowser.Application.Models
             {
                 HierarchyItem childHierarchy = new();
                 childHierarchy.Type = type;
+                childHierarchy.RelationWithReference = Relation.Descendent;
                 hierarchy.Children.Add(childHierarchy);
                 GetChildTypes(type, ref childHierarchy);
             }
