@@ -17,6 +17,12 @@ namespace AssemblyBrowser.Application.Models
             _hierarchyGenerator = hierarchyGenerator;
         }
 
+        public AssemblyBrowser()
+            : this(new CachingService(), new HierarchyGenerator())
+        {
+
+        }
+
         public Assembly[] GetApplicationAssemblies()
         {
             return (Assembly[])_cachingService.GetOrSearch(
@@ -41,7 +47,7 @@ namespace AssemblyBrowser.Application.Models
         public Tuple<int, Type>[] GetTypeHierarchy(Type type)
         {
             return (Tuple<int, Type>[])_cachingService.GetOrSearch(
-                type.FullName,
+                type.FullName + "_hierarchy",
                 () => _hierarchyGenerator.GetTypeHierarchy(type));
         }   
     }

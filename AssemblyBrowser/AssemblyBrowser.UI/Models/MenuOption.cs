@@ -1,19 +1,16 @@
-﻿using AssemblyBrowser.UI.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace AssemblyBrowser.UI.Models
 {
     public class MenuOption
     {
+        public string DisplayName { get; set; }
         public object Parameter { get; set; }
         public Type CommandType { get; set; }
 
-        public MenuOption(object parameter, Type commandType)
+        public MenuOption(string displayName, object parameter, Type commandType)
         {
+            DisplayName = displayName;
             Parameter = parameter;
             CommandType = commandType;
         }

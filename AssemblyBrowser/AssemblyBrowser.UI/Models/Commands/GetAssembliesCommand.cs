@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,17 +21,15 @@ namespace AssemblyBrowser.UI.Models.Commands
 
         public void Execute(object parameter, out IEnumerable<MenuOption> submenuOptions)
         {
-            //if (parameter == null || !(parameter is Assembly))
-            //throw new ArgumentException("Parameter is not of type: Assembly.", nameof(parameter));
-
             var results = _assemblyBrowser.GetApplicationAssemblies();
 
             var submenu = new List<MenuOption>();
-            submenu.Add(new MenuOption("Go back", typeof(GoBackCommand)));
+            submenu.Add(new MenuOption("0: Go back", "Go back", typeof(GoBackCommand)));
 
-            foreach(Assembly assembly in results)
+            for(int i = 0; i < results.Length; i++)
             {
-                submenu.Add(new MenuOption(parameter, typeof(GetAssemblyTypesCommand)));
+                var assembly = results[i];
+                submenu.Add(new MenuOption($"{i+1}: {assembly}", assembly, typeof(GetAssemblyTypesCommand)));
             }
 
             submenuOptions = submenu;

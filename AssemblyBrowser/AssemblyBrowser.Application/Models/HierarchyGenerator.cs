@@ -27,7 +27,7 @@ namespace AssemblyBrowser.Application.Models
             while (auxType != null)
             {
                 upperTypes.Add(new Tuple<int, Type>(currentLevel--, auxType));
-                auxType = type.BaseType;
+                auxType = auxType.BaseType;
             }
 
             return upperTypes ?? new List<Tuple<int, Type>>();
@@ -35,18 +35,18 @@ namespace AssemblyBrowser.Application.Models
 
         private List<Tuple<int, Type>> GetLowerTypes(Type type)
         {
-            List<Tuple<int, Type>> upperTypes = new();
+            List<Tuple<int, Type>> lowerTypes = new();
             int currentLevel = 1;
 
-            GetChildTypes(type, currentLevel, ref upperTypes);
+            GetChildTypes(type, currentLevel, ref lowerTypes);
 
-            return upperTypes ?? new List<Tuple<int, Type>>();
+            return lowerTypes ?? new List<Tuple<int, Type>>();
         }
 
         private void GetChildTypes(Type currentType, int currentLevel, ref List<Tuple<int, Type>> hierarchy)
         {
             var childTypes = Assembly
-                .GetExecutingAssembly()
+                .GetEntryAssembly()
                 .GetTypes()
                 .Where(t => t.BaseType == currentType)
                 .ToArray();

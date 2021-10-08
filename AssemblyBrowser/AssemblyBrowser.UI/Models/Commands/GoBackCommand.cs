@@ -1,12 +1,21 @@
-﻿using System;
+﻿using AssemblyBrowser.UI.Contracts;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AssemblyBrowser.UI.Models.Commands
 {
-    class GoBackCommand
+    class GoBackCommand : ICommand
     {
+        readonly MenuHandler _menuHandler;
+
+        public GoBackCommand(MenuHandler menuHandler)
+        {
+            _menuHandler = menuHandler;
+        }
+
+        public void Execute(object parameter, out IEnumerable<MenuOption> submenuOptions)
+        {
+            submenuOptions = null;
+            _menuHandler.GoBack();
+        }
     }
 }
