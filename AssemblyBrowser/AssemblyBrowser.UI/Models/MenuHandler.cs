@@ -10,6 +10,7 @@ namespace AssemblyBrowser.UI.Models
     class MenuHandler
     {
         readonly IAssemblyBrowser _assemblyBrowser;
+        readonly IHierarchyViewBuilder _hierarchyViewBuilder;
 
         private Stack<Tuple<ICommand, object>> _commandHistory;
         private List<ICommand> availableCommands;
@@ -17,6 +18,7 @@ namespace AssemblyBrowser.UI.Models
         public MenuHandler()
         {
             _assemblyBrowser = new Application.Models.AssemblyBrowser();
+            _hierarchyViewBuilder = new HierarchyViewBuilder();
             _commandHistory = new();
 
             availableCommands = new List<ICommand>()
@@ -28,7 +30,7 @@ namespace AssemblyBrowser.UI.Models
                 new GetTypeMembersCommand(_assemblyBrowser),
                 new GetMemberInfoCommand(_assemblyBrowser),
                 new GoBackCommand(this),
-                new GetTypeHierarchyCommand(_assemblyBrowser),
+                new GetTypeHierarchyCommand(_assemblyBrowser, _hierarchyViewBuilder),
                 new GetTypeByNameCommand(_assemblyBrowser),
             };
         }

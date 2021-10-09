@@ -19,7 +19,9 @@ namespace AssemblyBrowser.UI.Models.Commands
         {
             if (parameter == null || !(parameter is MemberInfo))
                 throw new ArgumentException("Parameter is not of type: MemberInfo.", nameof(parameter));
-            
+
+            Console.WriteLine($"Member: {parameter}\n");
+
             PrintMemberInfoDetails((MemberInfo)parameter);
 
             var submenu = new List<MenuOption>();

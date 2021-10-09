@@ -21,6 +21,8 @@ namespace AssemblyBrowser.UI.Models.Commands
             if (parameter == null || !(parameter is Assembly))
                 throw new ArgumentException("Parameter is not of type: Assembly.", nameof(parameter));
 
+            Console.WriteLine($"Assembly: {parameter}\n");
+
             var results = _assemblyBrowser.GetAssemblyTypes((Assembly)parameter);
 
             var submenu = new List<MenuOption>();

@@ -10,9 +10,6 @@ namespace AssemblyBrowser.Application.Contracts
         Type[] GetAssemblyTypes(Assembly assembly);
         MemberInfo[] GetTypeMembersInfo(Type type);
         Type[] GetTypesByName(string typeName);
-
-        // int => level (-1 - baseclass, 0 - class itself, 1 - child class etc)
         HierarchyItem GetTypeHierarchy(Type type); 
-
     }
 }

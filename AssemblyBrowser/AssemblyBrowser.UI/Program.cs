@@ -1,5 +1,4 @@
 ﻿using AssemblyBrowser.UI.Models;
-using System;
 
 namespace AssemblyBrowser.UI
 {
