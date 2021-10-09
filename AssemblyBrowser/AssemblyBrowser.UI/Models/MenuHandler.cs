@@ -13,7 +13,7 @@ namespace AssemblyBrowser.UI.Models
         readonly IHierarchyViewBuilder _hierarchyViewBuilder;
 
         private Stack<Tuple<ICommand, object>> _commandHistory;
-        private List<ICommand> availableCommands;
+        private List<ICommand> _availableCommands;
         
         public MenuHandler()
         {
@@ -21,7 +21,7 @@ namespace AssemblyBrowser.UI.Models
             _hierarchyViewBuilder = new HierarchyViewBuilder();
             _commandHistory = new();
 
-            availableCommands = new List<ICommand>()
+            _availableCommands = new List<ICommand>()
             {
                 new StartAppCommand(),
                 new ExitCommand(),
@@ -37,6 +37,9 @@ namespace AssemblyBrowser.UI.Models
 
         public void Start()
         {
+            // It starts with StartAppCommand, then it follows a kind of
+            // composite-like behavior where each command builds it's own submenu.
+
             ICommand currentCommand = GetCommandOfType(typeof(StartAppCommand));
             object currentParameter = null;
             IEnumerable<MenuOption> submenu = null;
@@ -97,20 +100,22 @@ namespace AssemblyBrowser.UI.Models
             }
         }
 
-        public void GoBack(ref IEnumerable<MenuOption> previousSubmenu)
+        public void GoBack(out IEnumerable<MenuOption> previousSubmenu)
         {
-            if (_commandHistory.Count() == 0)
-                return;
+            if(_commandHistory.Count() < 2)
+            {
+                throw new Exception("The operation can not be performed due to an empty history of commands");
+            }
 
-            //_commandHistory.Pop(); // Pop current command
-            _commandHistory.Pop(); // Pop previous command
+            // Pop the current command and peek the previous one.
+            _commandHistory.Pop();
             var op = _commandHistory.Peek();
             op.Item1.Execute(op.Item2, out previousSubmenu);
         }
 
         private ICommand GetCommandOfType(Type t)
         {
-            return availableCommands.FirstOrDefault(q => q.GetType() == t);
+            return _availableCommands.FirstOrDefault(q => q.GetType() == t);
         }
     }
 }
