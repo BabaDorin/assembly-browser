@@ -23,7 +23,7 @@ namespace AssemblyBrowser.UI.Models.Commands
             PrintMemberInfoDetails((MemberInfo)parameter);
 
             var submenu = new List<MenuOption>();
-            submenu.Add(new MenuOption("0: Go Back", "Go Back", typeof(GoBackCommand)));
+            submenu.Add(new MenuOption("0", "Go Back", typeof(GoBackCommand)));
             submenuOptions = submenu;
         }
 
@@ -36,7 +36,7 @@ namespace AssemblyBrowser.UI.Models.Commands
 
             foreach (var property in memberProperties)
             {
-                Console.WriteLine($"{property}:\t\t\t{property.GetValue(member)}");
+                Console.WriteLine($"{property.Name}:\t{property.GetValue(member)}");
             }
         }
     }

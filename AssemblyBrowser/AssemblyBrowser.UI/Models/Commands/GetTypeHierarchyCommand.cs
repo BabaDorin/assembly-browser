@@ -4,9 +4,7 @@ using AssemblyBrowser.UI.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AssemblyBrowser.UI.Models.Commands
 {
@@ -25,7 +23,7 @@ namespace AssemblyBrowser.UI.Models.Commands
             DisplayHierarchy(hierarchy, 0, new List<int>());
             submenuOptions = new List<MenuOption>()
             {
-                new MenuOption("0: Go Back", "Go back", typeof(GoBackCommand))
+                new MenuOption("0", "Go Back", typeof(GoBackCommand))
             };
         }
 
@@ -37,21 +35,24 @@ namespace AssemblyBrowser.UI.Models.Commands
             if (depthLevel > 0 && line[line.Length - 1] != '|')
                 line[line.Length - 1] = '|';
 
-            if (hierarchyItem.RelationWithReference == Relation.TheOne)
-                Console.ForegroundColor = ConsoleColor.Green;
-            else
-                Console.ForegroundColor = ConsoleColor.White;
+            var lineContent = line.ToString() + "-- " + hierarchyItem.Type.Name;
 
-            Console.WriteLine(line.ToString() + "-- " + hierarchyItem.Type.Name);
+            if (hierarchyItem.RelationWithReference == Relation.TheOne)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(lineContent);
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine(lineContent);
+            }
 
             if (hierarchyItem.Children.Count() > 1)
                 drawLines.Add(depthLevel);
 
             for (int i = 0; i < hierarchyItem.Children.Count; i++)
             {
-                //if (i > 0 && hierarchyItem.Children[i - 1].Children.Count() > 0)
-                //    Console.WriteLine("    " + line);
-
                 if (i == hierarchyItem.Children.Count - 1)
                 {
                     drawLines.Remove(depthLevel);

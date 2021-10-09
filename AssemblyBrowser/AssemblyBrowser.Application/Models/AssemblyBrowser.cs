@@ -49,6 +49,17 @@ namespace AssemblyBrowser.Application.Models
             return (HierarchyItem)_cachingService.GetOrSearch(
                 type.FullName + "_hierarchy",
                 () => _hierarchyGenerator.GetTypeHierarchy(type));
-        }   
+        }
+
+        public Type[] GetTypesByName(string typeName)
+        {
+            return (Type[])_cachingService.GetOrSearch(
+                typeName,
+                () => AppDomain.CurrentDomain
+                    .GetAssemblies()
+                    .SelectMany(q => q.GetTypes())
+                    .Where(q => q.FullName.ToLower().Contains(typeName.ToLower()))
+                    ?.ToArray());
+        }
     }
 }

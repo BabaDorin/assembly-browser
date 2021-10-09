@@ -23,16 +23,17 @@ namespace AssemblyBrowser.UI.Models.Commands
             var results = _assemblyBrowser.GetTypeMembersInfo((Type)parameter);
 
             var submenu = new List<MenuOption>();
-            submenu.Add(new MenuOption("0: Go Back", "Go Back", typeof(GoBackCommand)));
-            submenu.Add(new MenuOption("1: View type hierarchy", parameter, typeof(GetTypeHierarchyCommand)));
+            submenu.Add(new MenuOption("0", "Go Back", typeof(GoBackCommand)));
+            submenu.Add(new MenuOption("1", "View type hierarchy", typeof(GetTypeHierarchyCommand), parameter));
 
             for (int i = 0; i < results.Length; i++)
             {
                 var member = results[i];
                 submenu.Add(new MenuOption(
-                    $"{i + 2}: {GetMemberNature(member)}\t\t{member}",
-                    member,
-                    typeof(GetMemberInfoCommand)));
+                    $"{i + 2}",
+                    $"{GetMemberNature(member)}\t\t{member}",
+                    typeof(GetMemberInfoCommand),
+                    member));
             }
 
             submenuOptions = submenu;

@@ -24,12 +24,12 @@ namespace AssemblyBrowser.UI.Models.Commands
             var results = _assemblyBrowser.GetAssemblyTypes((Assembly)parameter);
 
             var submenu = new List<MenuOption>();
-            submenu.Add(new MenuOption("0: Go Back", "Go back", typeof(GoBackCommand)));
+            submenu.Add(new MenuOption("0", "Go Back", typeof(GoBackCommand)));
 
             for (int i = 0; i < results.Count(); i++)
             {
                 var assembly = results[i];
-                submenu.Add(new MenuOption($"{i + 1}: {assembly}", assembly, typeof(GetTypeMembersCommand)));
+                submenu.Add(new MenuOption($"{i+1}", $"{assembly}", typeof(GetTypeMembersCommand), assembly));
             }
 
             submenuOptions = submenu;
