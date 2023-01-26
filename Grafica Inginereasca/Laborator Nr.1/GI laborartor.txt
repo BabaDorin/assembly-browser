@@ -1,0 +1,144 @@
+Laborator 1.1
+function setup() {
+  createCanvas(400, 400);
+  background(0); // black background
+  
+  // draw tiny stars
+  for (let i = 0; i < 100; i++) {
+    stroke(255); // white stars
+    point(random(width), random(height));
+  }
+  
+  translate(200, -100); // Move the origin to the center of the canvas
+  rotate(PI / 4);
+  
+  drawMoon();
+  drawRocket();
+}
+
+function drawMoon() {
+  fill('#ffffff'); // Set the fill color to white
+  noStroke(); // Remove the outline around the moon
+  ellipse(200, 200, 150, 150); // Draw the moon
+
+  fill('#dddddd'); // Set the fill color to light grey
+  noStroke(); // Remove the outline around the craters
+  ellipse(230, 240, 10, 10); // Draw a crater
+  ellipse(200, 260, 15, 15); // Draw a crater
+  ellipse(250, 230, 20, 20); // Draw a crater
+  ellipse(160, 210, 50, 50); // Draw a crater
+  ellipse(200, 160, 20, 20); // Draw a crater
+}
+
+function drawRocket() {
+  x = 300;
+  y = 300;
+  //sidefins
+  fill(30, 144, 255);
+  arc(x, y + 36, 40, 40, PI, 0, CHORD)
+  fill(255, 0, 0)
+  ellipse(x, y, 30, 80)
+  fill(255)
+  ellipse(x, y - 12, 15, 15)
+  fill(255)
+  ellipse(x, y + 6, 15, 15)
+  fill(30, 144, 255);
+  ellipse(x, y + 32, 5, 30)
+}
+
+====
+
+
+Laborator 1.2
+leul
+function setup() {
+  createCanvas(400, 400); // Create a canvas with dimensions 400x400
+}
+
+function draw() {
+  fill('#964B00');
+  noStroke();
+  ellipse(200, 160, 90, 90);
+  ellipse(200, 220, 90, 90);
+  ellipse(215, 190, 90, 90);
+  ellipse(185, 190, 90, 90);
+  ellipse(230, 220, 90, 90);
+  ellipse(170, 220, 90, 90);
+  
+  stroke(1);
+  
+  fill(255, 219, 77); // yellow head
+  
+  //ellipse(x,y,w,h)
+  ellipse(180,160,20,20); //left ear
+  ellipse(220,160,20,20); //right ear
+  triangle(140,240,260,240,200,140); //head
+    
+  bezier(180, 215, 200, 235, 200, 200, 200, 210);
+  bezier(220, 215, 200, 235, 200, 200, 200, 210);
+  //mouth ^^^
+  
+  fill(0); //fill(r,g,b)
+  triangle(190,205,210, 205, 200, 190); //nose
+  
+  line(195, 210, 170, 200);
+  line(195, 210, 170, 215);
+  
+  line(205, 210, 230, 200);
+  line(205, 210, 230, 215);
+  
+  fill(0); //fill(r,g,b)
+  ellipse(190,180,5,5); //eyes
+  ellipse(210,180,5,5); //eyes
+}
+
+
+====
+
+Laborator 2
+
+function setup() {
+  createCanvas(1000, 1000); // Create a canvas with dimensions 400x400
+  rectMode(CENTER);
+}
+
+function draw() {
+  rotate(radians(30));
+  scale(2.1);
+  translate(15, 10);
+  
+  fill('#964B00');
+  noStroke();  
+  ellipse(200, 160, 90, 90);
+  ellipse(200, 220, 90, 90);
+  ellipse(215, 190, 90, 90);
+  ellipse(185, 190, 90, 90);
+  ellipse(230, 220, 90, 90);
+  ellipse(170, 220, 90, 90);
+  
+  stroke(1);
+  
+  fill(255, 219, 77); // yellow head
+  
+  //ellipse(x,y,w,h)
+  ellipse(180,160,20,20); //left ear
+  ellipse(220,160,20,20); //right ear
+  triangle(140,240,260,240,200,140); //head
+    
+  bezier(180, 215, 200, 235, 200, 200, 200, 210);
+  bezier(220, 215, 200, 235, 200, 200, 200, 210);
+  //mouth ^^^
+  
+  fill(0); //fill(r,g,b)
+  triangle(190,205,210, 205, 200, 190); //nose
+  
+  line(195, 210, 170, 200);
+  line(195, 210, 170, 215);
+  
+  line(205, 210, 230, 200);
+  line(205, 210, 230, 215);
+  
+  fill(0); //fill(r,g,b)
+  ellipse(190,180,5,5); //eyes
+  ellipse(210,180,5,5); //eyes
+}
